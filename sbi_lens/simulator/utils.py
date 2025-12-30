@@ -10,7 +10,12 @@ import numpy as np
 import numpyro
 import numpyro.distributions as dist
 import tensorflow_probability as tfp
-from lenstools import ConvergenceMap
+try:
+    from lenstools import ConvergenceMap
+    HAS_LENSTOOLS = True
+except ImportError:
+    HAS_LENSTOOLS = False
+    ConvergenceMap = None
 from numpyro import sample
 from numpyro.handlers import condition, reparam, seed, trace
 from numpyro.infer.reparam import LocScaleReparam, TransformReparam
@@ -242,7 +247,9 @@ def compute_power_spectrum_mass_map(nbins, map_size, mass_map):
     -------
         Power spectrum and ell
     """
-
+    if not HAS_LENSTOOLS:
+          raise ImportError("lenstools required for power spectrum computation")
+    
     l_edges_kmap = np.arange(100.0, 5000.0, 50.0)
 
     ell = ConvergenceMap(mass_map[:, :, 0], angle=map_size * u.deg).cross(

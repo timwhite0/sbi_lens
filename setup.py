@@ -19,7 +19,6 @@ setup(
         "jaxopt>=0.6",
         "numpyro>=0.10.1",
         "jax-cosmo>=0.1.0",
-        "lenstools>=1.2",
         "astropy>=5.2.2",
         "optax>=0.1.4",
         "scikit-learn>=1.2.0",
